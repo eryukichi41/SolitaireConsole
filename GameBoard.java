@@ -3,8 +3,10 @@ public class GameBoard {
     Pile p[];
     Deck deck;
     Card deckCard;
-
+    boolean hasConceded;
+    //Constructor
     public GameBoard(Deck d){
+        hasConceded = false;
         this.deck = d;
          f = new Foundation[4];
         for(int i = 0; i < 4; i++){
@@ -21,6 +23,20 @@ public class GameBoard {
             }
             p[i].pile.get(i).setIsRevealed(true);//Revealing the top card
         }
+    }
+    /**
+     * Getter for hasConceded
+     * @return the state of hasConceded
+     */
+    public boolean getHasConceded(){
+        return this.hasConceded;
+    }
+    /**
+     * Setter for hasConceded
+     * @param h true if player has conceded
+     */
+    public void setHasConceded(boolean h){
+        this.hasConceded = h;
     }
 
     public String toString(){
@@ -61,13 +77,17 @@ public class GameBoard {
         return output;
 
     }
-
+    /**
+     * Draws card from the deck and places it in either a pile or a foundation
+     * @param location char representing the destination of the card; 'P' for pile, and 'F' for foundation
+     * @param locIndex The index of the pile or foundation for which the card is coming from
+     * @return returns true if successful, returns false otherwise
+     */
     public boolean drawFromDeck(char location, int locIndex){
         Card c = this.deck.drawCard();
         if(location == 'P' || location == 'p'){
             if(p[locIndex].canStack(c)){
                 p[locIndex].addToPile(c, true);
-                System.out.println("The PILE: " + p[locIndex]);
                 return true;
             }
         }
@@ -82,19 +102,13 @@ public class GameBoard {
         this.deck.deck.add(0, c);
         return false;
     }
-
+    /**
+     * Cycles through the deck
+     * @return returns true if successful
+     */
     public boolean cycleDeck(){
         return this.deck.cycle();
     }
-    public boolean isDone(){
-        for(int i = 0; i < 4; i++){
-            if(this.f[i].foundationEmpty || this.f[i].foundation.get(this.f[i].foundation.size() - 1).value != 13){
-                return false;
-            }
-        }   
-        return true;
-    }
-
     /**
     This method moves cards from either the deck or another pile to another pile
     @param destLoc This determines whether the pile will move to a foundation or another pile
@@ -139,8 +153,12 @@ public class GameBoard {
         }
         return true;
     }
-
-
+    /**
+     * Moves card from foundation to a pile
+     * @param startIndex The index of the foundation where the card is coming from
+     * @param destIndex The index of the pile where the card will go
+     * @return Returns true if move is successful otherwise returns false
+     */
     public boolean moveFromFoundation(int startIndex, int destIndex){
         if(p[destIndex].canStack(f[startIndex].foundation.get(f[startIndex].foundation.size() - 1))){
             p[destIndex].addToPile(f[startIndex].foundation.get(f[startIndex].foundation.size() - 1), true);
@@ -149,7 +167,10 @@ public class GameBoard {
         }
         return false;
     }
-
+    /**
+     * Makes sure each foundation is full to see if the game is over
+     * @return returns true if theplayer wins
+     */
     public boolean endOfGame(){
         for(int i = 0; i < 4; i++){
             if(f[i].foundation.size() < 13)

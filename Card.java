@@ -11,7 +11,12 @@ public class Card{
     public static final String ANSI_RED = "\u001B[31m";
 
 
-    //Constructor
+    /**
+     * Constructor for Card object
+     * @param val The value of the card 
+     * @param col The color of the card
+     * @param st the suit of the card
+     */
     public Card(int val, String col, String st){
         this.value = val;
         this.color = col;
@@ -50,10 +55,7 @@ public class Card{
                 break;
             case "Heart":
                 st = "&";
-
-
         }
-        
         if(this.color == "Black")
             this.name = ANSI_BLUE + nam + st + ANSI_RESET;
         else if(this.color == "Red")
@@ -63,7 +65,10 @@ public class Card{
         this.isRevealed = false;
     }
 
-    //Copy Constructor
+    /**
+     * Copy constructor for the card
+     * @param source card that needs to be copied
+     */
     public Card(Card source){
         this.value = source.value;
         this.color = source.color;
@@ -71,11 +76,13 @@ public class Card{
         this.name = source.name;
         this.isRevealed = source.isRevealed;
     }
-
+    /**
+     * setter for the isRevealed
+     * @param rev
+     */
     public void setIsRevealed(boolean rev){
         this.isRevealed = rev;
     }
-
     public String toString(){
         return this.name;
     }

@@ -18,7 +18,6 @@ public class Deck {
             }
         }
     }
-
     public String toString(){
         String output = "";
         int count = 1;
@@ -29,13 +28,19 @@ public class Deck {
         }
         return output;
     }
-
+    /**
+     * Takes card from the top of the deck
+     * @return Returns card at the top of the deck
+     */
     public Card drawCard(){
         Card c = this.deck.get(0);
         this.deck.remove(0);
         return c;
     }
 
+    /**
+     * Shuffles the deck so the cards are in a random order
+     */
     public void shuffle(){
         ArrayList<Card> newDeck = new ArrayList<>();
         for(int i = 0; i < 52; i++){
@@ -46,7 +51,11 @@ public class Deck {
         }
         this.deck = newDeck;
     }
-
+    /**
+     * Pulls the card from the top of the deck for the user to look at, and places it at the bottom
+     * of the deck afterwards
+     * @return returns true if successful, return false otherwise
+     */
     public boolean cycle(){
         if(this.deck.size() > 0){
             Card c = this.deck.get(0);
